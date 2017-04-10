@@ -28,7 +28,6 @@ public:
             outlist[s].push_back(t);
             inlist[t].push_back(s);
 
-            cout << '1' << endl;
             ifs >> s >> t;
         }
         ifs.close();
@@ -52,7 +51,37 @@ public:
     void Degree(vector< list<int> >& li){
         cout << "Size is " << li.size() << endl;
     }
+
     //Is neighbour fuction // either one node is pointing
+
+//    bool Dfs(int target, int source, bool visited[]) {
+//        visited[source] = true;
+//        for (list<int>::iterator ip=outlist[source].begin(); ip!=outlist[source].end(); ip++) {
+//            if (*ip == target) {
+//                return true;
+//            } else if (!visited[source]) {
+//                visited[source] = true;
+//                Dfs(target, *ip, false);
+//            }
+//        }
+//    }
+
+    void addEdge(int s, int t) {
+        outlist[s].push_back(t);
+        inlist[t].push_back(s);
+    }
+
+    int isReachable(int target, int source) {
+        for (list<int>::iterator ip=outlist[source].begin(); ip!=outlist[source].end(); ip++) {
+            if ( *ip == target) {
+                return true;
+            } else {
+                isReachable(*ip, source);
+            }
+        }
+
+    }
+
 };
 
 void PrintBounds(vector< list<int> > &outlist, vector< list<int> > &inlist) {
@@ -85,6 +114,10 @@ int main() {
     graph.GetInbound(0);
     graph.GetOutbound(3);
     graph.Degree(graph.outlist);
+    if (graph.isReachable(0,2) ) {
+        cout << "it's reachable" << endl;
+    }
+
 
     return 0;
 }
